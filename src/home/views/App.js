@@ -6,19 +6,22 @@ function App() {
   const [user, setUser] = useState(null);
 
   const handleSubmit = async (e) => {
-    login(e).then((user) => {setUser(user)});
+    e.preventDefault();
+    login(e).then((user) => {
+      setUser(user)
+      if (user[0] && user[0].netid && user[0].givenName) {
+        window.location.href = `/test?netid=${user[0].netid}&givenName=${user[0].givenName}`;
+      }
+    });
   }
 
   return (
     <div className="App">
-      {user ? 
-        <header className="App-header">
-          <p>hello {user[0].givenName}, your NetID is {user[0].netid}</p>
-        </header>
-        :
+      {!user 
+       &&
         <header className="App-header">
           <form onSubmit={handleSubmit}>
-            <p>Enter your NetId:</p>
+            <p>Enter Your netID:</p>
             <input type="text" className="loginInput" id="netid"></input>
             <input type="submit" className="submitButton"></input>
           </form>

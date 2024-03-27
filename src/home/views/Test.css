@@ -1,0 +1,9 @@
+.background {
+    min-height: 100vh;
+    background-color: #282c34;
+}
+
+.header {
+    height: 100px;
+    background-color: #61dafb;
+}
