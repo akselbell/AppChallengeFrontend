@@ -1,22 +1,39 @@
-import logo from './logo.svg';
 import './App.css';
 
 function App() {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const netid = document.getElementById("netid").value;
+
+    try {
+      const url = `http://localhost:80/api/getData/${netid}`;
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          netID: netid
+        })
+      };
+
+      // Send POST request using fetch API
+      const response = await fetch(url, options);
+      const data = await response.json();
+      console.log(data); // Handle response data as needed
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
+  }
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <form onSubmit={handleSubmit}>
+          <p>Enter your NetId:</p>
+          <input type="text" className="loginInput" id="netid"></input>
+          <input type="submit" className="submitButton"></input>
+        </form>
       </header>
     </div>
   );

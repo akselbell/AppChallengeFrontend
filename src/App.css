@@ -36,3 +36,30 @@
     transform: rotate(360deg);
   }
 }
+
+.submitButton {
+  display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 8px 16px;
+    gap: 10px;
+    width: 150px;
+    height: 40px;
+    border-radius: 36px;
+    background-color: #1A237E;
+    margin: 20px;
+    color: #fff;
+    border: none;
+    
+    font-size: 20px;
+    line-height: 19px;
+    cursor: pointer;
+}
+
+.loginInput {
+  height: 30px;
+  border-radius: 5px;
+  border: none;
+  width: 200px;
+  font-size: 20px;
+}
