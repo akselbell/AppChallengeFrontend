@@ -1,7 +1,6 @@
-import './App.css';
 
-function App() {
-  const handleSubmit = async (e) => {
+
+export const login = async (e) => {
     e.preventDefault();
     const netid = document.getElementById("netid").value;
 
@@ -20,23 +19,9 @@ function App() {
       // Send POST request using fetch API
       const response = await fetch(url, options);
       const data = await response.json();
-      console.log(data); // Handle response data as needed
+      return data;
     } catch (error) {
       console.error('Error submitting form:', error);
+      return null;
     }
   }
-
-  return (
-    <div className="App">
-      <header className="App-header">
-        <form onSubmit={handleSubmit}>
-          <p>Enter your NetId:</p>
-          <input type="text" className="loginInput" id="netid"></input>
-          <input type="submit" className="submitButton"></input>
-        </form>
-      </header>
-    </div>
-  );
-}
-
-export default App;
