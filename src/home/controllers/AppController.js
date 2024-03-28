@@ -10,12 +10,9 @@ export const login = async (e) => {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          netID: netid
-        })
+        }
       };
-
+      console.log("here");
       // Send POST request using fetch API
       const response = await fetch(url, options);
       const data = await response.json();
