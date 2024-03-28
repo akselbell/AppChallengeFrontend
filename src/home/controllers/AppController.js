@@ -7,7 +7,7 @@ export const login = async (e) => {
     try {
       const url = `http://localhost:80/api/getData/${netid}`;
       const options = {
-        method: 'POST',
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
