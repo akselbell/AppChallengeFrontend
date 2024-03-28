@@ -19,9 +19,11 @@ export const login = async (e) => {
       // Send POST request using fetch API
       const response = await fetch(url, options);
       const data = await response.json();
+      console.log(data);
       return data;
     } catch (error) {
-      console.error('Error submitting form:', error);
+        console.log("error");
+        console.error('Error submitting form:', error);
       return null;
     }
   }

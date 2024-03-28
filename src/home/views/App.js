@@ -7,8 +7,9 @@ function App() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    login(e).then((user) => {
+    await login(e).then((user) => {
       setUser(user)
+      console.log(user);
       if (user[0] && user[0].netid && user[0].givenName) {
         window.location.href = `/test?netid=${user[0].netid}&givenName=${user[0].givenName}`;
       }
