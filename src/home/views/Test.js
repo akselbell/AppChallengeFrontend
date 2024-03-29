@@ -1,5 +1,5 @@
-import App from "./App";
 import './Test.css';
+import Course from './Course';
 
 function Test() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -9,9 +9,10 @@ function Test() {
     return (
         <div className="background">
             <div className="header">
-                <div>{givenName}</div>
-                <div>{netid}</div>
+                <div className="nameButton">Welcome {givenName}</div>
             </div>
+            <div className="coursesTitle">Courses</div>
+            <Course />
         </div>
     );
 }

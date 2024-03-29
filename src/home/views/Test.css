@@ -4,6 +4,28 @@
 }
 
 .header {
-    height: 100px;
+    height: 120px;
+    padding-top: 22px;
     background-color: #61dafb;
+}
+
+.coursesTitle {
+    color: white;
+    font-family: 'Arial';
+    background-color: black;
+    width: 350px;
+    min-height: 100vh;
+    padding: 20px;
+    font-size: 1.3rem;
+}
+
+.nameButton {
+    width: 296px;
+    height: 75px;
+    background: #282c34;
+    color: white;
+    border-radius: 26px;
+    margin-left: 26px;
+    text-decoration: none;
+    border: none;
 }
