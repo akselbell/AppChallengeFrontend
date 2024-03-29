@@ -4,9 +4,12 @@
 }
 
 .header {
-    height: 120px;
-    padding-top: 22px;
+    height: 100px;
+    padding-top: 33px;
     background-color: #61dafb;
+    display: flex;
+    justify-content: space-between;
+    padding-right: 26px;
 }
 
 .coursesTitle {
@@ -15,8 +18,11 @@
     background-color: black;
     width: 350px;
     min-height: 100vh;
-    padding: 20px;
+    padding: 26px;
     font-size: 1.3rem;
+    border-radius: 26px;
+    margin-top: 20px;
+    margin-left: 26px;
 }
 
 .nameButton {
@@ -28,4 +34,13 @@
     margin-left: 26px;
     text-decoration: none;
     border: none;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+a {
+    text-decoration: none;
+    color: white;
 }

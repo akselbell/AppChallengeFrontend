@@ -1,4 +1,27 @@
 .course {
     color: white;
-    background-color: blue;
+    background-color: #282c34;
+    border: 1px solid #61dafb;
+    font-size: 0.9rem;
+    padding: 5px;
+    border-radius: 5px;
+    transition: 100ms ease all;
+    cursor: default;
+    user-select: none;
+    margin-top: 20px;
+    font-family: 'Arial';
+    padding-top: 10px;
+    padding-left: 10px;
+}
+
+.courseName {
+    font-weight: 500;
+    font-size: 1.1rem;
+    font-family: 'Arial';
+    display: flex;
+    justify-content: center;
+}
+
+.courseDetail {
+    padding-top: 5px;
 }
