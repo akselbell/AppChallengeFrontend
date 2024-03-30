@@ -4,6 +4,10 @@ import { createCourse, getCourses, getLocation, getNextCourse } from '../control
 import { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 
+const dayNameToIndex = {
+    'Sunday': 0, 'Monday': 1, 'Tuesday': 2, 'Wednesday': 3, 'Thursday': 4, 'Friday': 5, 'Saturday': 6
+};
+
 function Test() {
     const [courses, setCourses] = useState(null);
     const [popupAdd, setPopupAdd] = useState(false);
@@ -11,11 +15,29 @@ function Test() {
     const netid = urlParams.get('netid')?.toString();
     const givenName = urlParams.get('givenName')?.toString();
     const [nextCourse, setNextCourse] = useState(null);
-    const location = getLocation();
-    console.log(location);
-    console.log(nextCourse);
+    const [timeToLeave, setTimeToLeave] = useState(null);
+    const [location, setLocation] = useState(null);
     const togglePopup = (bool) => {
         setPopupAdd(bool);
+    };
+
+    
+    const getLocation = () => {
+        return new Promise((resolve, reject) => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    resolve({ latitude: latitude, longitude: longitude });
+                }, () => {
+                    console.log("Cannot get location.")
+                    reject("Cannot get location");
+                });
+            } else {
+                console.log("Geolocation not supported");
+                reject("Geolocation not supported");
+            }
+        });
     };
 
     useEffect(() => {
@@ -25,11 +47,37 @@ function Test() {
                 setCourses(fetchedCourses);
                 const fetchedNextCourse = await getNextCourse(netid);
                 setNextCourse(fetchedNextCourse);
+                
+                const days = fetchedNextCourse.days.split(',').map(day => day.trim());
+                for (const day of days) {
+                    const dayIndex = dayNameToIndex[day];
+                    if (dayIndex === new Date().getDay()) {
+                        setTimeToLeave("5:00 PM");
+                    }
+                }
+
+                const fetchedLocation = await getLocation();
+                console.log(fetchedLocation);
+                setLocation(fetchedLocation);
             } catch (error) {
                 console.error('Error fetching courses:', error);
             }
         };
         fetchData();
+
+        // Fetch location every minute
+        const intervalId = setInterval(async () => {
+            try {
+                const fetchedLocation = await getLocation();
+                console.log(fetchedLocation);
+                setLocation(fetchedLocation);
+            } catch (error) {
+                console.error('Error fetching location:', error);
+            }
+        }, 60000); // Interval set to 1 minute (60000 milliseconds)
+
+        // Cleanup function to clear the interval when the component unmounts
+        return () => clearInterval(intervalId);
     }, []); // Empty dependency array to fetch courses only once when the component mounts
 
     const addCourseButton = () => {
@@ -42,6 +90,14 @@ function Test() {
             await createCourse(course);
             const fetchedNextCourse = await getNextCourse(netid);
             setNextCourse(fetchedNextCourse);
+
+            const days = fetchedNextCourse.days.split(',').map(day => day.trim());
+            for (const day of days) {
+                const dayIndex = dayNameToIndex[day];
+                if (dayIndex === new Date().getDay()) {
+                    setTimeToLeave("5:00 PM");
+                }
+            }
         } catch (error) {
             console.error('Error fetching courses:', error);
         }
@@ -83,6 +139,15 @@ function Test() {
                         : (<p>Loading next course...</p>)
                     }
                 </div>
+                <div className="coursesTitle" id="nextCourse">
+                    <div className="currentCourseTitle">Time to Leave:</div>
+                    <div className="locationBox">
+                        <div>{location ? (<>Longitude: {location.longitude}</>) : (<>No Location Detected</>)}</div>
+                        <div>{location ? (<>Latitude: {location.latitude}</>) : (<>No Location Detected</>)}</div>
+                        <div className="TTL">Time to leave: {timeToLeave ? <>{timeToLeave}</> : (<>No Class Today</>)}</div>
+                    </div>
+                </div>
+                
             </div>
 
             <Modal className="verificationPopup" isOpen={popupAdd} onRequestClose={() => {setPopupAdd(false);}} ariaHideApp={false} style={{

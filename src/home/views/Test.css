@@ -156,3 +156,23 @@ a {
 #nextCourse {
     height: 200px;
 }
+
+.TTL {
+    padding-top: 20px;
+}
+
+.locationBox {
+    color: white;
+    background-color: #282c34;
+    border: 1px solid #61dafb;
+    font-size: 1.3rem;
+    padding: 5px;
+    border-radius: 5px;
+    transition: 100ms ease all;
+    cursor: default;
+    user-select: none;
+    margin-top: 20px;
+    font-family: 'Arial';
+    padding-top: 10px;
+    padding-left: 10px;
+}

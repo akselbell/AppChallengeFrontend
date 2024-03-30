@@ -91,19 +91,3 @@ export const getNextCourse = async (netid) => {
     return null;
   };
 }
-
-export const getLocation = () => {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition((position) => {
-        const latitude = position.coords.latitude;
-        const longitude = position.coords.longitude;
-        return { latitude: latitude, longitude: longitude };
-    }, () => {
-        console.log("Cannot get location.")
-        return null;
-    });
-    } else {
-      console.log("Geolocation not supported");
-      return null;
-    }
-}
