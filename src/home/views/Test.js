@@ -40,12 +40,27 @@ function Test() {
         }
     }
 
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+        }, () => {
+            console.log("Cannot get location.")
+        });
+    } else {
+        console.log("Geolocation not supported");
+    }
+
+      
+
     return (
         <div className="background">
             <div className="header">
                 <div className="nameButton">Welcome {givenName}</div>
                 <div className="nameButton"><a href="/">Logout</a></div>
             </div>
+            <button></button>
             <div className="coursesTitle">
                 <div className="currentCourseTitle">Current Courses</div>
                 { courses ?
