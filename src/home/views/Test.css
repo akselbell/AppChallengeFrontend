@@ -23,6 +23,8 @@
     border-radius: 26px;
     margin-top: 20px;
     margin-left: 26px;
+    display: flex;
+    flex-direction: column;
 }
 
 .nameButton {
@@ -64,7 +66,7 @@ a {
     padding-left: 61px;
     padding-top: 100px;
     color: #000000;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .popupOKButton {
@@ -102,8 +104,15 @@ a {
     width: 90px;
 }
 
-.addCourse {
-
+.addCourseButton {
+    font-family: "Arial";
+    background-color: #282c34;
+    border: 1px solid #61dafb;
+    font-size: 0.9rem;
+    padding: 5px;
+    margin-top: 20px;
+    border-radius: 5px;
+    color: white;
 }
 
 .addCourse-label{
@@ -123,5 +132,18 @@ a {
     font-family: "Arial";
     padding: 0px 10px;
     font-size: 16px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.input {
+    display: flex;
+    width: 500px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.currentCourseTitle {
+    display: flex;
+    justify-content: center;
 }

@@ -1,7 +1,7 @@
 import "./Course.css"
 
 function Course(props) {
-    const { name, building, startTime, endTime, days, campus } = props;
+    const { name, building, startTime, days, campus } = props;
     return (
         <>
             <div className="course">
