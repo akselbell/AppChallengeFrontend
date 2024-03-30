@@ -8,7 +8,6 @@ function Course(props) {
                 <div className="courseName">{name}</div>
                 <div className="courseDetail">Building: {building}</div>
                 <div className="courseDetail">Start Time: {startTime}</div>
-                <div className="courseDetail">End Time: {endTime}</div>
                 <div className="courseDetail">Days: {days}</div>
                 <div className="courseDetail">Campus: {campus}</div>
             </div>

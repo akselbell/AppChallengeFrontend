@@ -44,3 +44,84 @@ a {
     text-decoration: none;
     color: white;
 }
+
+.verificationPopup {
+    width: 600px;
+    height: 600px;
+    margin-left: 31%;
+    margin-top: 5%;        /* change to 14%? */
+    background: linear-gradient(0deg, #F6F6F6, #F6F6F6), #FFFFFF;
+    border-radius: 5px;
+}
+
+.popupTitle {
+    font-family: 'Arial';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 29px;
+    letter-spacing: 0.015em;
+    padding-left: 61px;
+    padding-top: 100px;
+    color: #000000;
+    margin-bottom: 10px;
+}
+
+.popupOKButton {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 8px 16px;
+    gap: 10px;
+    display: flex;
+    width: 56px;
+    height: 35px;
+    margin-left: 61px;
+    margin-top: 20px;
+
+    /* FFS Light Blue */
+    background: #61dafb;
+    border-radius: 16px;
+    border: none;
+
+    font-family: 'Arial';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: 0.015em;
+    color: #0F0F0F;
+    cursor: pointer;
+}
+
+.popupOKButton:hover {
+    background-color: hsl(200, 90%, 65%);
+}
+
+#payNow {
+    width: 90px;
+}
+
+.addCourse {
+
+}
+
+.addCourse-label{
+    padding-left: 61px;
+}
+
+.login-input{
+    padding-left: 10px;
+    background-color: #F6F6F6;
+    width: 300px;
+    height: 48px;
+    box-sizing: border-box;
+    border: 1px solid #A2A2A2;
+    border-radius: 4px;
+    margin-left: 10px;
+
+    font-family: "Arial";
+    padding: 0px 10px;
+    font-size: 16px;
+    margin-bottom: 20px;
+}

@@ -15,7 +15,6 @@ export const login = async (e) => {
     // Send POST request using fetch API
     const response = await fetch(url, options);
     const data = await response.json();
-    console.log(data);
     return data;
   } catch (error) {
       console.log("error");
@@ -37,7 +36,7 @@ export const getCourses = async (netid) => {
         // Send POST request using fetch API
         const response = await fetch(url, options);
         const data = await response.json();
-        console.log(data);
+        return data;
   } catch (error) {
       console.log("error");
       console.error('Error submitting form:', error);
