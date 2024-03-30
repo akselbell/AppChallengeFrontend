@@ -1,6 +1,6 @@
 import './Test.css';
 import Course from './Course';
-import { createCourse, getCourses } from '../controllers/AppController';
+import { createCourse, getCourses, getLocation, getNextCourse } from '../controllers/AppController';
 import { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 
@@ -10,7 +10,10 @@ function Test() {
     const urlParams = new URLSearchParams(window.location.search);
     const netid = urlParams.get('netid')?.toString();
     const givenName = urlParams.get('givenName')?.toString();
-    
+    const [nextCourse, setNextCourse] = useState(null);
+    const location = getLocation();
+    console.log(location);
+    console.log(nextCourse);
     const togglePopup = (bool) => {
         setPopupAdd(bool);
     };
@@ -20,6 +23,8 @@ function Test() {
             try {
                 const fetchedCourses = await getCourses(netid);
                 setCourses(fetchedCourses);
+                const fetchedNextCourse = await getNextCourse(netid);
+                setNextCourse(fetchedNextCourse);
             } catch (error) {
                 console.error('Error fetching courses:', error);
             }
@@ -35,24 +40,12 @@ function Test() {
     const postCourse = async (course) => {
         try {
             await createCourse(course);
+            const fetchedNextCourse = await getNextCourse(netid);
+            setNextCourse(fetchedNextCourse);
         } catch (error) {
             console.error('Error fetching courses:', error);
         }
     }
-
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((position) => {
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
-            console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-        }, () => {
-            console.log("Cannot get location.")
-        });
-    } else {
-        console.log("Geolocation not supported");
-    }
-
-      
 
     return (
         <div className="background">
@@ -60,25 +53,37 @@ function Test() {
                 <div className="nameButton">Welcome {givenName}</div>
                 <div className="nameButton"><a href="/">Logout</a></div>
             </div>
-            <button></button>
-            <div className="coursesTitle">
-                <div className="currentCourseTitle">Current Courses</div>
-                { courses ?
-                    (
-                        courses.map((course, index) => {
-                        return <Course 
-                                    key={index}
-                                    name={course.name} 
-                                    building={course.building} 
-                                    startTime={course.startTime}
-                                    days={course.days} 
-                                    campus={course.campus}/>
-                    }))
-                    : (<p>Loading courses...</p>)
-                }
-                <button className="addCourseButton" onClick={addCourseButton}>Add Course</button>
+            <div className="wrapper">
+                <div className="coursesTitle">
+                    <div className="currentCourseTitle">Current Courses</div>
+                    { courses ?
+                        (
+                            courses.map((course, index) => {
+                            return <Course 
+                                        key={index}
+                                        name={course.name} 
+                                        building={course.building} 
+                                        startTime={course.startTime}
+                                        days={course.days} 
+                                        campus={course.campus}/>
+                        }))
+                        : (<p>Loading courses...</p>)
+                    }
+                    <button className="addCourseButton" onClick={addCourseButton}>Add Course</button>
+                </div>
+                <div className="coursesTitle" id="nextCourse">
+                    <div className="currentCourseTitle">Next Upcoming Course</div>
+                    {  nextCourse ?
+                        <Course 
+                                        name={nextCourse.name} 
+                                        building={nextCourse.building} 
+                                        startTime={nextCourse.startTime}
+                                        days={nextCourse.days} 
+                                        campus={nextCourse.campus}/>
+                        : (<p>Loading next course...</p>)
+                    }
+                </div>
             </div>
-
 
             <Modal className="verificationPopup" isOpen={popupAdd} onRequestClose={() => {setPopupAdd(false);}} ariaHideApp={false} style={{
                 overlay: {

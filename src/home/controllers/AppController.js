@@ -70,3 +70,40 @@ export const createCourse = async (course) => {
     return null;
   };
 }
+
+export const getNextCourse = async (netid) => {
+  try {
+      const url = `http://localhost:80/api/nextcourse/${netid}`;
+
+      const options = {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        };
+        // Send POST request using fetch API
+        const response = await fetch(url, options);
+        const data = await response.json();
+        return data;
+  } catch (error) {
+      console.log("error");
+      console.error('Error submitting form:', error);
+    return null;
+  };
+}
+
+export const getLocation = () => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition((position) => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        return { latitude: latitude, longitude: longitude };
+    }, () => {
+        console.log("Cannot get location.")
+        return null;
+    });
+    } else {
+      console.log("Geolocation not supported");
+      return null;
+    }
+}

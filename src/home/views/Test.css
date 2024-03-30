@@ -1,6 +1,7 @@
 .background {
     min-height: 100vh;
     background-color: #282c34;
+    color: white;
 }
 
 .header {
@@ -17,7 +18,6 @@
     font-family: 'Arial';
     background-color: black;
     width: 350px;
-    min-height: 100vh;
     padding: 26px;
     font-size: 1.3rem;
     border-radius: 26px;
@@ -146,4 +146,13 @@ a {
 .currentCourseTitle {
     display: flex;
     justify-content: center;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: row;
+}
+
+#nextCourse {
+    height: 200px;
 }
