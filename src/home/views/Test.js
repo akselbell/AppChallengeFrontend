@@ -1,6 +1,6 @@
 import './Test.css';
 import Course from './Course';
-import { createCourse, getCourses, getLocation, getNextCourse } from '../controllers/AppController';
+import { createCourse, getCourses, getLocation, getNextCourse, getTTL } from '../controllers/AppController';
 import { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 
@@ -47,18 +47,19 @@ function Test() {
                 setCourses(fetchedCourses);
                 const fetchedNextCourse = await getNextCourse(netid);
                 setNextCourse(fetchedNextCourse);
-                
-                const days = fetchedNextCourse.days.split(',').map(day => day.trim());
-                for (const day of days) {
-                    const dayIndex = dayNameToIndex[day];
-                    if (dayIndex === new Date().getDay()) {
-                        setTimeToLeave("5:00 PM");
-                    }
-                }
 
                 const fetchedLocation = await getLocation();
                 console.log(fetchedLocation);
                 setLocation(fetchedLocation);
+
+                const days = fetchedNextCourse.days.split(',').map(day => day.trim());
+                for (const day of days) {
+                    const dayIndex = dayNameToIndex[day];
+                    if (dayIndex === new Date().getDay()) {
+                        const fetchedTTL = await getTTL(fetchedNextCourse, fetchedLocation.longitude, fetchedLocation.latitude, netid );
+                        setTimeToLeave(fetchedTTL);
+                    }
+                }
             } catch (error) {
                 console.error('Error fetching courses:', error);
             }
@@ -95,7 +96,8 @@ function Test() {
             for (const day of days) {
                 const dayIndex = dayNameToIndex[day];
                 if (dayIndex === new Date().getDay()) {
-                    setTimeToLeave("5:00 PM");
+                    const fetchedTTL = await getTTL(fetchedNextCourse, location.longitude, location.latitude, netid );
+                    setTimeToLeave(fetchedTTL);
                 }
             }
         } catch (error) {
@@ -109,45 +111,47 @@ function Test() {
                 <div className="nameButton">Welcome {givenName}</div>
                 <div className="nameButton"><a href="/">Logout</a></div>
             </div>
-            <div className="wrapper">
-                <div className="coursesTitle">
-                    <div className="currentCourseTitle">Current Courses</div>
-                    { courses ?
-                        (
-                            courses.map((course, index) => {
-                            return <Course 
-                                        key={index}
-                                        name={course.name} 
-                                        building={course.building} 
-                                        startTime={course.startTime}
-                                        days={course.days} 
-                                        campus={course.campus}/>
-                        }))
-                        : (<p>Loading courses...</p>)
-                    }
-                    <button className="addCourseButton" onClick={addCourseButton}>Add Course</button>
-                </div>
-                <div className="coursesTitle" id="nextCourse">
-                    <div className="currentCourseTitle">Next Upcoming Course</div>
-                    {  nextCourse ?
-                        <Course 
-                                        name={nextCourse.name} 
-                                        building={nextCourse.building} 
-                                        startTime={nextCourse.startTime}
-                                        days={nextCourse.days} 
-                                        campus={nextCourse.campus}/>
-                        : (<p>Loading next course...</p>)
-                    }
-                </div>
-                <div className="coursesTitle" id="nextCourse">
-                    <div className="currentCourseTitle">Time to Leave:</div>
-                    <div className="locationBox">
-                        <div>{location ? (<>Longitude: {location.longitude}</>) : (<>No Location Detected</>)}</div>
-                        <div>{location ? (<>Latitude: {location.latitude}</>) : (<>No Location Detected</>)}</div>
-                        <div className="TTL">Time to leave: {timeToLeave ? <>{timeToLeave}</> : (<>No Class Today</>)}</div>
+            <div className="biggerWrapper">
+                <div className="wrapper">
+                    <div className="coursesTitle" id="nextCourse">
+                        <div className="currentCourseTitle">Next Upcoming Course</div>
+                        {  nextCourse ?
+                            <Course 
+                                            name={nextCourse.name} 
+                                            building={nextCourse.building} 
+                                            startTime={nextCourse.startTime}
+                                            days={nextCourse.days} 
+                                            campus={nextCourse.campus}/>
+                            : (<p>Loading next course...</p>)
+                        }
+                    </div>
+                    <div className="coursesTitle">
+                        <div className="currentCourseTitle">Current Courses</div>
+                        { courses ?
+                            (
+                                courses.map((course, index) => {
+                                return <Course 
+                                            key={index}
+                                            name={course.name} 
+                                            building={course.building} 
+                                            startTime={course.startTime}
+                                            days={course.days} 
+                                            campus={course.campus}/>
+                            }))
+                            : (<p>Loading courses...</p>)
+                        }
+                        <button className="addCourseButton" onClick={addCourseButton}>Add Course</button>
                     </div>
                 </div>
-                
+                <div className="TTLContainer">
+                        <div className="currentCourseTitle" id="title">Time to Leave</div>
+                        <div className="locationBox">
+                            <div>{location ? (<>Longitude: {location.longitude}</>) : (<>No Location Detected</>)}</div>
+                            <div>{location ? (<>Latitude: {location.latitude}</>) : (<>No Location Detected</>)}</div>
+                            <div className="TTL">Leave at:</div>
+                            <div className="TTL2">{timeToLeave ? <>{timeToLeave}</> : (<>No Class Today</>)}</div>
+                        </div>
+                </div>
             </div>
 
             <Modal className="verificationPopup" isOpen={popupAdd} onRequestClose={() => {setPopupAdd(false);}} ariaHideApp={false} style={{

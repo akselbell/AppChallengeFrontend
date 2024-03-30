@@ -91,3 +91,35 @@ export const getNextCourse = async (netid) => {
     return null;
   };
 }
+
+export const getTTL = async (course, longitude, latitude, netid) => {
+  try {
+    console.log("getting TTL");
+    const url = `http://localhost:80/api/checktime`;
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        currentCampus: "West",
+        longitude: latitude,
+        latitude: longitude,
+        netid: netid
+      })
+    });
+
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+
+    const data = await response.json();
+    console.log('Success:', data);
+    return data; // Return the response data
+  } catch (error) {
+    console.log("error");
+    console.error('Error submitting form:', error);
+    return null;
+  };
+}
